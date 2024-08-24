@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room</title>
+</head>
+<body>
+    {%extends "Main.html"%}
+    {%block content%}
+        <h1>Room page</h1>
+        <h3>{{room.name}}</h3>
+        <p>{{room.description}}</p>
+        <hr>
+        <h3>Conversations</h3>
+        <div>
+            {%for message in room_messages%}
+                <b><small>@{{message.user}} {{message.created | timesince}} ago</small></b>
+                <p>{{message.body}}</p>
+                <hr>
+            {% endfor %}
+        </div>
+    {% endblock %}
+</body>
+</html>

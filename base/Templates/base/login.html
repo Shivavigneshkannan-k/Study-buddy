@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            min-height:100vh ;
+        }
+        .login-form{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.5em;
+            font-size: 1.5em;
+            border: 2px solid black;
+            padding: 1em;
+        }
+        input{
+            width: 250px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    {% extends "main.html"%}
+    {% block content %}
+    <h2>Login</h2>
+    <form method="post" class="login-form">
+        {% csrf_token %}
+
+        <label for="username">username:</label>
+        <input type="text" name="username" placeholder="username"/><br>
+
+        <label for=password">password:</label>
+        <input type="password" name="password" placeholder="Password"/>
+        <br>
+
+        <input type="submit" value="Login"/>
+
+    </form>
+        
+    <p>don't have an account <a href="{% url 'registerUser'%}">click here</a></p>
+    {% endblock %}
+</body>
+</html>

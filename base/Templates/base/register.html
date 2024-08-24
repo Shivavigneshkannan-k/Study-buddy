@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            min-height:100vh ;
+        }
+        .UserForm{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.5em;
+            border: 2px solid black;
+            padding: 1em;
+            /* font-size: 1.5em; */
+        }
+        #submitbtn{
+            width: 250px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    {% extends "main.html" %}
+    {% block content %}
+    <form action="" method="post" class="UserForm">
+        {% csrf_token %}
+        {{userForm.as_p}}
+        <input type="submit" value="Register" id="submitbtn">
+    </form>
+    <p>have an account already? <a href="{% url 'login'%}">click here</a></p>
+    {% endblock %}
+</body>
+</html>

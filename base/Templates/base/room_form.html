@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>room form</title>
+</head>
+<body>
+    {% extends "Main.html"%}
+    {% block content%}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Submit">
+    </form>
+
+    {% endblock %}
+</body>
+</html>

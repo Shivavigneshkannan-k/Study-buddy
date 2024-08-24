@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        .container{
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+            gap:1em;
+        }
+        .home-update{
+            display: flex;
+            gap:1em;
+        }
+    </style>
+</head>
+<body>
+    {%extends "Main.html" %}
+    {% block content%}
+    <div class="container">
+        <div class="sidebar">
+                {% if request.user.is_authenticated %} 
+                <a href="{%url 'logout' %}">logout</a>
+                <h2> Hi, {{request.user.username}} </h2>
+                {% else %}
+                <a href="{%url 'login' %}">login</a><br><br>
+                {% endif %}
+                
+            <hr>
+            <h2>Browse topic</h2>
+            <hr>
+            <form action="{% url 'home' %}" method="get">
+                {% csrf_token %}
+                <input type="text" placeholder="search..." name="q"/>
+            </form>
+            <p><a href="{% url 'home' %}">ALL</a></p>
+            {% for topic in topics%}
+
+            <p><a href="{% url 'home' %}?q={{topic.name}}">{{topic}}</a></p>
+            {% endfor %}
+        </div>
+        
+        <div class="MainContainer">
+            <p><a href="{% url 'create-room' %}">Create Room</a></p>
+            <h1>Home page</h1>
+            <div>
+                {% for room in rooms %}
+                        <div class="home-update">
+                            {%if request.user.is_authenticated %}
+                            <span><a href="{% url 'update-room' room.id %}">Update</a></span>  
+                            <span><a href="{% url 'delete-room' room.id%}">Delete</a></span>
+                            {% endif %}             
+                        </div>
+                    <div>
+                        <p>@ {{room.host.username}}</p>
+                        <h3>{{room.id}} ---   <a href="{% url 'room' room.id %}">{{room.name}}</a> </h3>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
