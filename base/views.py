@@ -31,6 +31,13 @@ def home(request):
 def room(request,pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all().order_by("-created")
+    if request.method == "POST":
+        Message.objects.create(
+            user = request.user,
+            body = request.POST.get("new_message"),
+            room = room
+        )
+        return redirect("room",pk=room.id)
     context = {"room":room,"room_messages":room_messages}
     return render(request,"base/Room.html",context)
 

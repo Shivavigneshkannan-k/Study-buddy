@@ -20,6 +20,11 @@
                 <hr>
             {% endfor %}
         </div>
+
+        <form action="" method ="post">
+            {% csrf_token %}
+            <input type="text" name="new_message" placeholder="add your comment....">
+        </form>
     {% endblock %}
 </body>
 </html>
