@@ -24,21 +24,25 @@ from django.contrib.auth.forms import UserCreationForm
 def home(request):
     q = request.GET.get('q')  if request.GET.get('q') !=None else ""
     rooms = Room.objects.filter(Q(topic__name__icontains=q)|Q(name__icontains=q)|Q(description__icontains=q))
+    messages = Message.objects.filter(Q(room__topic__name__icontains=q))
+
     topic = Topic.objects.all()
-    context = {"rooms":rooms,"topics":topic}
+    context = {"rooms":rooms,"topics":topic,"messageActivity":messages}
     return render(request,"base/Home.html",context)
 
 def room(request,pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all().order_by("-created")
+    participants = room.participants.all()
     if request.method == "POST":
         Message.objects.create(
             user = request.user,
             body = request.POST.get("new_message"),
             room = room
         )
+        room.participants.add(request.user)
         return redirect("room",pk=room.id)
-    context = {"room":room,"room_messages":room_messages}
+    context = {"room":room,"room_messages":room_messages,"participants":participants}
     return render(request,"base/Room.html",context)
 
 @login_required(login_url="login")
@@ -67,12 +71,25 @@ def updateRoom(request,pk):
             return redirect("home")
     return render(request,"base/room_form.html",{"form":form})
 
+@login_required(login_url="login")
 def deleteRoom(request,pk):
     room = Room.objects.get(id=pk)
+    if room.host != request.user:
+        return HttpResponse("you are not allowed here")
     if request.method=="POST":
         room.delete()
         return redirect("home")
-    return render(request,"base/delete.html")
+    return render(request,"base/delete.html",{"obj":room})
+
+@login_required(login_url="login")  
+def deleteMessage(request,pk):
+    message = Message.objects.get(id=pk)
+    if message.user != request.user:
+        return HttpResponse("you are not allowed here")
+    if request.method=="POST":
+        message.delete()
+        return redirect("home")
+    return render(request,"base/delete.html",{"obj":message})
     
 def loginPage(request):
     if request.method == "POST":

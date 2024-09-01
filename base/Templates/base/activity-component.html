@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+        <div class="activity-component">
+            <h1>Recent Activity</h1>
+            {% for msg in messageActivity %}
+                <div>
+                <b>@ {{msg.user}}</b> {{msg.created | timesince}}  
+                <p>replied to {{msg.room}}</p>
+                <p>{{msg}}</p>
+                {%if request.user == msg.user %}
+                    <a href="{%url 'delete-message' msg.id%}">delete</a>
+                {% endif %}
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    {% endblock %}
+</body>
+</html>

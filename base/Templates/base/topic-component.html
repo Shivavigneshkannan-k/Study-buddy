@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+        <h2>Browse topic</h2>
+        <hr>
+        <form action="{% url 'home' %}" method="get">
+            {% csrf_token %}
+            <input type="text" placeholder="search..." name="q"/>
+        </form>
+        <p><a href="{% url 'home' %}">ALL</a></p>
+        {% for topic in topics%}
+
+        <p><a href="{% url 'home' %}?q={{topic.name}}">{{topic}}</a></p>
+        {% endfor %}
+    {% endblock %}
+</body>
+</html>

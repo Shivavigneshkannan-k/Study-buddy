@@ -10,5 +10,6 @@ urlpatterns =[
     path("login/",views.loginPage,name="login"),
     path("loginout/",views.logoutFeature,name="logout"),
     path("registerUser/",views.registerUser,name="registerUser"),
+    path("delete-message/<str:pk>/",views.deleteMessage,name="delete-message"),
 ]
 
