@@ -128,3 +128,12 @@ def registerUser(request):
             messages.error(request,"Error: invalid data")
     context = {"userForm":userForm}
     return render(request,"base/register.html",context)
+
+def UserProfile(request,pk):
+    q = request.GET.get('q') if request.GET.get('q') !=None else ""
+    user = User.objects.get(id=pk) 
+    room = user.room_set.all()
+    topics = Topic.objects.all()
+    messages = Message.objects.filter(Q(room__topic__name__icontains=q))
+    context = {"user":user,"rooms":room,"messageActivity":messages,"topics":topics}
+    return render(request,"base/user-profile.html",context)

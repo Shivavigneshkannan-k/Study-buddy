@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content%}
+
+        <div>
+            
+            {% for room in rooms %}
+                    <div class="home-update">
+                        {%if request.user.is_authenticated and request.user == room.host%}
+                        <span><a href="{% url 'update-room' room.id %}">Update</a></span>  
+                        <span><a href="{% url 'delete-room' room.id%}">Delete</a></span>
+                        {% endif %}             
+                    </div>
+                <div>
+                    <p><a href="{% url 'user-profile' room.host.id %}">@ {{room.host.username}}</a></p>
+                    <h3><a href="{% url 'room' room.id %}">{{room.name}}</a> </h3>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    {% endblock %}
+</body>
+</html>

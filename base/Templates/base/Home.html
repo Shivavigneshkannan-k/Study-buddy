@@ -36,21 +36,7 @@
             <p><a href="{% url 'create-room' %}">Create Room</a></p>
             <h1>Home page</h1>
             <hr>
-            <div>
-                {% for room in rooms %}
-                        <div class="home-update">
-                            {%if request.user.is_authenticated and request.user == room.host%}
-                            <span><a href="{% url 'update-room' room.id %}">Update</a></span>  
-                            <span><a href="{% url 'delete-room' room.id%}">Delete</a></span>
-                            {% endif %}             
-                        </div>
-                    <div>
-                        <p>@ {{room.host.username}}</p>
-                        <h3><a href="{% url 'room' room.id %}">{{room.name}}</a> </h3>
-                    </div>
-                    <hr>
-                {% endfor %}
-            </div>
+            {% include "base/rooms-component.html"%}
         </div>
         {% include "base/activity-component.html" %}
     </div>
