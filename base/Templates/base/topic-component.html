@@ -7,18 +7,31 @@
 </head>
 <body>
     {% block content %}
-        
-        <h2>Browse topic</h2>
-        <hr>
-        <form action="{% url 'home' %}" method="get">
+        <!-- <form action="{% url 'home' %}" method="get"></form>
             {% csrf_token %}
             <input type="text" placeholder="search..." name="q"/>
-        </form>
-        <p><a href="{% url 'home' %}">ALL</a></p>
+        </form> -->
+
+        <!-- <p><a href="{% url 'home' %}">ALL</a></p>
+
         {% for topic in topics%}
 
         <p><a href="{% url 'home' %}?q={{topic.name}}">{{topic}}</a></p>
-        {% endfor %}
+        {% endfor %} -->
+
+            <ul class="topics__list">
+                <li>
+                  <a href="{% url 'home' %}" class="active">All <span>553</span></a>
+                </li>
+                {% for topic in topics %}
+                <li>
+                  <a href="{% url 'home' %}?q={{topic.name}}" class="active">{{topic}}<span>553</span></a>
+                </li>
+                {% endfor %}
+
+
+
+
     {% endblock %}
 </body>
 </html>
