@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room</title>
+    <style>
+        .container{
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+        }
+    </style>
+</head>
+<body>
+    {%extends "Main.html"%}
+    {%block content%}
+    <div class="container">
+        <div>
+                <h1>Room page</h1>
+                <h3>{{room.name}}</h3>
+                <p>{{room.description}}</p>
+                <hr>
+                <h3>Conversations</h3>
+                {%for message in room_messages%}
+                <a href="{%url 'delete-message' message.id%}">delete</a>
+                    <b><small>@{{message.user}} {{message.created | timesince}} ago</small></b>
+                    <p>{{message.body}}</p>
+                    <hr>
+                {% endfor %}
+
+                <form action="" method ="post">
+                    {% csrf_token %}
+                    <input type="text" name="new_message" placeholder="add your comment....">
+                </form>
+        </div>
+        <div class="activity-feed">
+            <h1>participants</h1>
+            <hr>
+            {%for user in participants%}
+                <p>@{{user.username}}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+</html>
