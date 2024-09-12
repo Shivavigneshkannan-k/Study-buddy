@@ -91,7 +91,7 @@ def deleteMessage(request,pk):
     if request.method=="POST":
         message.delete()
         return redirect("home")
-    return render(request,"base/delete.html",{"obj":message})
+    return render(request,"base/delete.html",{"message":message})
     
 def loginPage(request):
     if request.method == "POST":

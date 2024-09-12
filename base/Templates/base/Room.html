@@ -107,14 +107,17 @@
                       </a>
                       <span class="thread__date">{{message.created | timesince}}</span>
                     </div>
-                    <div class="thread__delete">
+                    <a href="{% url 'delete-message' message.id%}">
+                      <div class="thread__delete" >
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                         <title>remove</title>
                         <path
                           d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"
                         ></path>
                       </svg>
-                    </div>
+                      </div>
+                    </a>
+
                   </div>
                   <div class="thread__details">
                    {{message.body}}
@@ -126,7 +129,10 @@
             </div>
           </div>
           <div class="room__message">
-            <form action="#"><input name="" placeholder="Write your message here..." /></form>
+            <form action="" method="post">
+              {% csrf_token %}
+              <input name="new_message" type="text" placeholder="Write your message here..." />
+            </form>
           </div>
         </div>
         <!-- Room End -->
@@ -135,159 +141,18 @@
         <div class="participants">
           <h3 class="participants__top">Participants <span>(5.3k Joined)</span></h3>
           <div class="participants__list scroll">
+            {% for user in participants %}
             <a href="profile.html" class="participant">
               <div class="avatar avatar--medium">
                 <img src="https://randomuser.me/api/portraits/men/37.jpg" />
               </div>
               <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
+                {{user.username}}
+                <span>@{{user.username}}</span>
               </p>
             </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
-            <a href="profile.html" class="participant">
-              <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-              </div>
-              <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
-              </p>
-            </a>
+            {% endfor %}
+            
           </div>
         </div>
         <!--  End -->
