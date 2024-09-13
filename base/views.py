@@ -47,31 +47,42 @@ def room(request,pk):
 
 @login_required(login_url="login")
 def createRoom(request):
+    topics = Topic.objects.all()
     form = RoomForm()
     if request.method == "POST":
-        form = RoomForm(request.POST)
-        if form.is_valid():
-            print(form)
-            form = form.save(commit=False)
-            form.host = request.user
-            form.save()
-            return redirect("home")
-    return render(request,"base/room_form.html",{"form":form})
+        topic_name = request.POST.get('topic')
+        topic,created = Topic.objects.get_or_create(name=topic_name)
+        Room.objects.create(
+            host = request.user,
+            name = request.POST.get('name'),
+            description = request.POST.get('description'),
+            topic= topic
+        )
+        return redirect("home")
+    return render(request,"base/room_form.html",{"form":form,"topics":topics})
 
 @login_required(login_url="login")
 def updateRoom(request,pk):
     room = Room.objects.get(id=pk)
+    topics = Topic.objects.all()
     form = RoomForm(instance=room)
 
     if request.user != room.host:
         return HttpResponse("you are not allowed here")
     
     if request.method == "POST":
-        form = RoomForm(request.POST,instance=room)
-        if form.is_valid():
-            form.save()
-            return redirect("home")
-    return render(request,"base/room_form.html",{"form":form})
+        topic_name = request.POST.get("topic")
+        name = request.POST.get("name")
+
+        topic,created = Topic.objects.get_or_create(name = topic_name)
+        description = request.POST.get('description')
+
+        room.topic = topic
+        room.name = name
+        room.description = description
+        room.save()
+        return redirect("home")
+    return render(request,"base/room_form.html",{"form":form,"room":room,"topics":topics})
 
 @login_required(login_url="login")
 def deleteRoom(request,pk):
@@ -136,6 +147,6 @@ def UserProfile(request,pk):
     user = User.objects.get(id=pk) 
     room = user.room_set.all()
     topics = Topic.objects.all()
-    messages = Message.objects.filter(Q(room__topic__name__icontains=q))
+    messages = user.message_set.all()
     context = {"user":user,"rooms":room,"messageActivity":messages,"topics":topics}
     return render(request,"base/user-profile.html",context)

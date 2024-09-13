@@ -1,4 +1,4 @@
-{%include "Nav.html"%}
+{%include "Main.html"%}
 {% load static %}
 <link rel="stylesheet" href="{% static 'styles/style.css' %}">
 {%block content%}
@@ -15,40 +15,39 @@
                 </path>
               </svg>
             </a>
-            <h3>Create Study Room</h3>
+            <h3>Create/Update Study Room</h3>
           </div>
         </div>
         <div class="layout__body">
           <form class="form" action="" method="post">
             {%csrf_token%}
-
-            <div class="form__group">
-              <label for="room_name">Room Name</label>
-              <input id="room_name" name="room_name" type="text" placeholder="E.g. Mastering Python + Django" />
-            </div>
-
             <div class="form__group">
               <label for="room_topic">Topic</label>
-              <input required type="text" name="topic" id="room_topic" list="topic-list" />
+              <input required type="text" value="{{room.topic}}" name="topic" id="room_topic" list="topic-list" />
               <datalist id="topic-list">
                 <select id="room_topic">
-                  <option value="">Select your topic</option>
-                  <option value="Python">Python</option>
-                  <option value="Django">Django</option>
+                  {% for topic in topics%}
+                  <option value="{{topic.name}}">{{topic.name}}</option>
+                  {% endfor %}
                 </select>
               </datalist>
-
             </div>
+             <div class="form__group">
+                <label for="room_name">Room Name</label>
+                <input id="room_name" name="name" value="{{room.name}}" type="text" placeholder="E.g. Mastering Python + Django" />
+              </div>
 
 
-            <div class="form__group">
-              <label for="room_about">About</label>
-              <textarea name="description" id="room_about" placeholder="Write about your study group..."></textarea>
-            </div>
-            <div class="form__action">
-              <a class="btn btn--dark" href="{% url 'home' %}">Cancel</a>
-              <button class="btn btn--main" type="submit">Create Room</button>
-            </div>
+
+              <div class="form__group">
+                <label for="room_about">About</label>
+                <textarea name="description" value="{{room.description}}" id="room_about" placeholder="Write about your study group..."></textarea>
+              </div>
+              
+              <div class="form__action">
+                <a class="btn btn--dark" href="{% url 'home' %}">Cancel</a>
+                <button class="btn btn--main" type="submit">Submit</button>
+              </div>
           </form>
         </div>
       </div>

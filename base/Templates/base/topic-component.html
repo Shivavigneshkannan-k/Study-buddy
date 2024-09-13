@@ -21,11 +21,11 @@
 
             <ul class="topics__list">
                 <li>
-                  <a href="{% url 'home' %}" class="active">All <span>553</span></a>
+                  <a href="{% url 'home' %}" class="active">All <span>{{topics.count}}</span></a>
                 </li>
                 {% for topic in topics %}
                 <li>
-                  <a href="{% url 'home' %}?q={{topic.name}}" class="active">{{topic}}<span>553</span></a>
+                  <a href="{% url 'home' %}?q={{topic.name}}" class="active">{{topic}}<span>{{topic.room_set.all.count}}</span></a>
                 </li>
                 {% endfor %}
 
