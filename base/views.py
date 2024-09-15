@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 
 from django.http import HttpResponse
 from .models import Room,Topic,Message
-from .form import RoomForm
+from .form import RoomForm,UserForm
 from django.forms import ModelForm
 from django.db.models import Q
 from django.contrib.auth import authenticate,login,logout
@@ -127,10 +127,26 @@ def logoutFeature(request):
     logout(request)
     return redirect("home")
 
+# def registerUser(request):
+#     userForm = UserCreationForm()
+#     if request.method == "POST":
+#         form = UserCreationForm(request.POST);
+#         if form.is_valid:
+#             user = form.save(commit=False)
+#             user.username = user.username.lower() 
+#             user.save()
+#             login(request,user)
+        
+#             return redirect("home")
+#         else:
+#             messages.error(request,"Error: invalid data")
+#     context = {"userForm":userForm}
+#     return render(request,"base/register.html",context)
+
 def registerUser(request):
-    userForm = UserCreationForm()
+    userForm = UserForm()
     if request.method == "POST":
-        form = UserCreationForm(request.POST);
+        form = UserForm(request.POST);
         if form.is_valid:
             user = form.save(commit=False)
             user.username = user.username.lower() 
@@ -150,3 +166,21 @@ def UserProfile(request,pk):
     messages = user.message_set.all()
     context = {"user":user,"rooms":room,"messageActivity":messages,"topics":topics}
     return render(request,"base/user-profile.html",context)
+
+
+
+@login_required(login_url="login")
+def editProfile(request):
+    user = request.user
+    
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("home")
+        else:
+            print("Form errors:", form.errors)
+    else:
+        form = UserForm(instance=user)
+    
+    return render(request, "base/edit-user.html", {"form": form})

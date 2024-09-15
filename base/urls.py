@@ -12,5 +12,6 @@ urlpatterns =[
     path("registerUser/",views.registerUser,name="registerUser"),
     path("delete-message/<str:pk>/",views.deleteMessage,name="delete-message"),
     path("user-profile/<str:pk>/",views.UserProfile,name="user-profile"),
+    path("update-user-profile",views.editProfile,name="update-user-profile"),
 ]
 
