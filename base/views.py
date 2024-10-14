@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 
 from django.http import HttpResponse
 from .models import Room,Topic,Message
-from .form import RoomForm,UserForm
+from .form import RoomForm,UserForm,UserUpdateForm
 from django.forms import ModelForm
 from django.db.models import Q
 from django.contrib.auth import authenticate,login,logout
@@ -174,13 +174,13 @@ def editProfile(request):
     user = request.user
     
     if request.method == "POST":
-        form = UserForm(request.POST, instance=user)
+        form = UserUpdateForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
             return redirect("home")
         else:
             print("Form errors:", form.errors)
     else:
-        form = UserForm(instance=user)
+        form = UserUpdateForm(instance=user)
     
     return render(request, "base/edit-user.html", {"form": form})
