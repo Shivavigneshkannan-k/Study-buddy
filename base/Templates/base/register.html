@@ -42,23 +42,13 @@
                 />
               </div>-->
               
+              {% for field in userForm%}
+              <div class="form__group form__group">
+                <label for="{{field.label}}">{{field.label}}</label>
+                {{field}}
+              </div>
+              {% endfor %}
               
-              <div class="form__group form__group">
-                <label for="{{userForm.username.name}}">{{userForm.username.label}}</label>
-                {{userForm.username}}
-              </div>
-              <div class="form__group form__group">
-                <label for="{{userForm.email.name}}">{{userForm.email.label}}</label>
-                {{userForm.email}}
-              </div>
-              <div class="form__group form__group">
-                <label for="{{userForm.password1.name}} >{{userForm.password1.label}}</label>
-                {{userForm.password1}}
-              </div>
-              <div class="form__group form__group">
-                <label for="{{userForm.password2.name}}">{{userForm.password2.label}}</label>
-                {{userForm.password2}}
-              </div>
               
               <button class="btn btn--main" type="submit">
                 <svg

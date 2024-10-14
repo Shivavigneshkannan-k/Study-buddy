@@ -3,15 +3,14 @@ from django.shortcuts import render,redirect
 # Create your views here.
 
 from django.http import HttpResponse
-from .models import Room,Topic,Message
-from .form import RoomForm,UserForm,UserUpdateForm
+from .models import Room,Topic,Message,User
+from .form import RoomForm,UserForm,UserUpdateForm,MyUserCreationForm
 from django.forms import ModelForm
 from django.db.models import Q
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
 
 # rooms = [
 #     {"id":1,"name":"Learn Django in a week"},
@@ -106,13 +105,13 @@ def deleteMessage(request,pk):
     
 def loginPage(request):
     if request.method == "POST":
-        Username = request.POST.get("username")
+        email = request.POST.get("email")
         Password = request.POST.get("password")
         try:
-            user = User.objects.get(username=Username)
+            user = User.objects.get(email=email)
         except:
-            messages.error(request, "user does not exist")
-        user = authenticate(request,username=Username,password=Password)
+            messages.error(request, "email id does not exist")
+        user = authenticate(request,email=email,password=Password)
 
         if user is not None:
                 login(request,user)
@@ -144,7 +143,7 @@ def logoutFeature(request):
 #     return render(request,"base/register.html",context)
 
 def registerUser(request):
-    userForm = UserForm()
+    userForm = MyUserCreationForm()
     if request.method == "POST":
         form = UserForm(request.POST);
         if form.is_valid:
@@ -174,7 +173,7 @@ def editProfile(request):
     user = request.user
     
     if request.method == "POST":
-        form = UserUpdateForm(request.POST, instance=user)
+        form = UserUpdateForm(request.POST, request.FILES,instance=user)
         if form.is_valid():
             form.save()
             return redirect("home")
@@ -183,4 +182,4 @@ def editProfile(request):
     else:
         form = UserUpdateForm(instance=user)
     
-    return render(request, "base/edit-user.html", {"form": form})
+    return render(request, "base/editUser.html", {"form": form})
